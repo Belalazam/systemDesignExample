@@ -1,5 +1,8 @@
 package com.example.patterns;
 
+import com.example.patterns.service.Singleton.Logger;
+import com.example.patterns.service.factory.DonationTypeFactory;
+import com.example.patterns.service.factory.Messenger;
 import com.example.patterns.service.observer.FemaleObserver;
 import com.example.patterns.service.observer.HelperStation;
 import com.example.patterns.service.observer.MaleObserver;
@@ -30,6 +33,10 @@ public class PatternsApplication {
 			// so to know who was helped very little, we need to sort our beggars with respected to helping count
 			// so, for sorting we need sorting algorithm, and out of many sorting algorithm which one to choose
 			if (Objects.equals(patternName, "strategy")) {
+
+				// behavioral
+				// choosing an algorithm out of family of algorithm during runtime is called strategy pattern
+
 				SortIt bubbleSort = new BubbleSort();
 				SortIt mergeSort = new MergeSort();
 
@@ -47,6 +54,11 @@ public class PatternsApplication {
 			// we don't want to user sir/mam together, we want to use it gender-specific
 			// also we know gender are increasing day by day, so to avoid if else. sarcastic
 			else if (Objects.equals(patternName, "observer")) {
+
+				// behavioral
+				// when there are many observer, who are subscribed to an object and all want to get notified when
+				// object (the "subject" or "observable")  is changed , such type of pattern are called observer pattern
+
 				HelperStation helperStation = new HelperStation();
 				MaleObserver maleObserver = new MaleObserver(helperStation);
 				FemaleObserver femaleObserver = new FemaleObserver(helperStation);
@@ -54,7 +66,53 @@ public class PatternsApplication {
 				helperStation.setTotalHelped("1023");
 				helperStation.setTotalHelped("2033");
 				helperStation.setTotalHelped("3033");
-			} else {
+			}
+
+
+
+
+			// Many users , donate different amount to help the people who are in need,
+			// but some give less amount , some give average amount , and some pay very high amount
+			// for each donation we want to show some gratitude to our customers.
+			// so for that we decided to send them message, in context of there donation
+			else if(Objects.equals(patternName, "factory"))
+			{
+				// creational
+				// The Factory Pattern is about creating the wright object at runtime based on a given input or condition
+
+				// In abstract factory pattern, In the Abstract Factory Pattern, you indeed work with abstract classes
+				// or interfaces for both the factory and the products. The concrete implementations of the factories
+				// create concrete products. The pattern abstracts away the concrete classes by using abstract classes
+				// or interfaces, allowing the client code to interact with the products and
+				// factories through these abstractions.
+
+				DonationTypeFactory donationTypeFactory = new DonationTypeFactory();
+
+				Messenger messenger = donationTypeFactory.createMessenger(40L);
+				messenger.sendMessage();
+
+				messenger = donationTypeFactory.createMessenger(2200L);
+				messenger.sendMessage();
+
+				messenger = donationTypeFactory.createMessenger(50000L);
+				messenger.sendMessage();
+			}
+
+			// we want to implement one logic, and across the project same logic will be used
+			// or we want to maintain some data across the project, so that we can fetch that data any where in the project
+			else if(Objects.equals(patternName, "singleton"))
+			{
+				// Creational
+				// when we maintain only one instance of class
+				Logger logger1 = Logger.getLoggerInstance();
+				Logger logger2 = Logger.getLoggerInstance();
+
+				logger1.log("hello 1");
+				logger2.log("hello 2");
+
+				System.out.println(logger1 == logger2);
+			}
+			else {
 				System.out.println("oops wrong input");
 			}
 		}
