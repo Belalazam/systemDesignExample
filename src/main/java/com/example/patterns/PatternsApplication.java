@@ -1,6 +1,7 @@
 package com.example.patterns;
 
-import com.example.patterns.service.Singleton.Logger;
+import com.example.patterns.service.command.*;
+import com.example.patterns.service.singleton.Logger;
 import com.example.patterns.service.factory.DonationTypeFactory;
 import com.example.patterns.service.factory.Messenger;
 import com.example.patterns.service.observer.FemaleObserver;
@@ -13,6 +14,7 @@ import com.example.patterns.service.strategy.SortIt;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.rmi.Remote;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -99,7 +101,7 @@ public class PatternsApplication {
 			}
 
 			// we want to implement one logic, and across the project same logic will be used
-			// or we want to maintain some data across the project, so that we can fetch that data any where in the project
+			// or, we want to maintain some data across the project, so that we can fetch that data anywhere in the project
 			else if(Objects.equals(patternName, "singleton"))
 			{
 				// Creational
@@ -111,6 +113,30 @@ public class PatternsApplication {
 				logger2.log("hello 2");
 
 				System.out.println(logger1 == logger2);
+			}
+
+
+			// In our apps, user want to make screen as night mode, or day mode
+			else if(Objects.equals(patternName, "command"))
+			{
+				// 	behavioral
+				//  it consists of three rules
+				//	Commands: In the Command Pattern, a command is like a button on your remote. It knows what action to perform on which device.
+				// 	Invoker (Remote Control): The invoker is the remote control itself. It doesn’t know the details of the devices it controls; it just knows that when you press a button (a command), something will happen.
+				//	Receiver (Devices): The receivers are the devices like your TV or lights. They are the ones that actually do the work (turn on, turn off, etc.) when they get a command.
+
+				Theme theme = new Theme();
+
+				Command darkMode = new DarkMode(theme);
+				Command lightMOde = new LightMode(theme);
+
+				Invoker invoker = new Invoker();
+
+				invoker.setCommand(darkMode);
+				invoker.pressButton();
+
+				invoker.setCommand(lightMOde);
+				invoker.pressButton();
 			}
 			else {
 				System.out.println("oops wrong input");

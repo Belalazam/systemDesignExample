@@ -1,4 +1,4 @@
-package com.example.patterns.service.Singleton;
+package com.example.patterns.service.singleton;
 
 public class Logger
 {
