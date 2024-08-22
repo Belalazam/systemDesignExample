@@ -1,6 +1,8 @@
 package com.example.patterns;
 
 import com.example.patterns.service.command.*;
+import com.example.patterns.service.proxy.BeforeEachLogin;
+import com.example.patterns.service.proxy.CheckPost;
 import com.example.patterns.service.singleton.Logger;
 import com.example.patterns.service.factory.DonationTypeFactory;
 import com.example.patterns.service.factory.Messenger;
@@ -138,6 +140,24 @@ public class PatternsApplication {
 				invoker.setCommand(lightMOde);
 				invoker.pressButton();
 			}
+
+			// we have user, he wants to log in, but we don't know whether that user is signed up or not
+			// we have list of names, if user is special make him login
+
+			// we want to access login, but through some other class, which will make
+			// some pre-logic before accessing login
+			else if(Objects.equals(patternName, "proxy"))
+			{
+				// structural
+				// we have (real, proxy, client)
+				// real -> login, proxy -> before login, client -> main
+				CheckPost checkPost = new BeforeEachLogin("special");
+				checkPost.displayUserStatus();
+
+				CheckPost checkPost1 = new BeforeEachLogin("new_user");
+				checkPost1.displayUserStatus();
+			}
+
 			else {
 				System.out.println("oops wrong input");
 			}
